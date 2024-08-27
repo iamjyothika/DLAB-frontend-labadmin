@@ -10,7 +10,7 @@ import { BASE_URL } from "components/baseurl";
 function Notifications() {
   const labid=sessionStorage.getItem("id");
   console.log(labid);
-  const [doctorData,setDoctorData]=useState({doctorname:"",qualification:"",specialiazation:"",doctor_image:null,lab:labid});
+  const [doctorData,setDoctorData]=useState({doctorname:"",qualification:"",specialiazation:"",doctorimage:"",lab:labid});
   console.log(doctorData)
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate(); 
@@ -59,7 +59,7 @@ function Notifications() {
     }
   };
   const handleFileChange = (e) => {
-    setDoctorData({ ...doctorData, doctor_image: e.target.files[0] });
+    setDoctorData({ ...doctorData, doctorimage: e.target.files[0] });
   };
   
 

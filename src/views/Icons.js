@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { Card, Container, Row, Col, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { BASE_URL } from "components/baseurl";
-import backgroundImage from './lbmin6.png'; 
+import backgroundImage from './lbmin6.png';
+import Select from "react-select";
+ 
 
 function Icons() {
   const labid=sessionStorage.getItem("id");
@@ -26,7 +28,13 @@ function Icons() {
             'Content-Type':'application/json'
           }
         });
-        setTestOptions(response.data);
+        console.log('API Response:', response.data);
+        const options = response.data.map(test => ({
+          value: test.id,
+          label: test.testname
+        }));
+        setTestOptions(options);
+        console.log('Test Options:', options);
       } catch (error) {
         console.error('Error fetching tests:', error);
       }
@@ -83,22 +91,17 @@ function Icons() {
     }
   };
   
-  const handleTestChange = (e) => {
-    const selectedTests = Array.from(e.target.selectedOptions, option => Number(option.value));
-    setPackages({ ...packages, tests: selectedTests });
-    console.log("Selected Tests:", selectedTests);
+  const handleTestChange = (selectedOptions) => {
+    const selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setPackages({ ...packages, tests: selectedValues });
+    console.log("Selected Tests:", selectedValues); // Log selected test values
   };
   
 
 const handleFileChange = (e) => {
   setPackages({ ...packages, packageimage: e.target.files[0] });
 };
-// const handleTestChange = (e) => {
-//   const selectedTests = Array.from(e.target.selectedOptions, option =>Number(option.value));
-//   setPackages({ ...packages, tests: selectedTests });
-//   console.log("Selected Tests:", selectedTests); 
- 
-// };
+
 
 
    
@@ -129,18 +132,29 @@ const handleFileChange = (e) => {
                     <Form.Group as={Row} controlId="testsIncluded" style={{ marginBottom: "20px" }}>
                       <Form.Label column sm="3" style={{ color: 'black', fontSize: '14px', fontWeight: "bold", whiteSpace: "nowrap", textAlign: "right", paddingRight: "15px" }}>Tests included :</Form.Label>
                       <Col sm="8">
-                        <Form.Control as="select" multiple style={{ width: "95%", borderRadius: '16px', border: "1px solid black" }}
-                          className="form-control-styled"
-                          required
-                          value={packages.tests}
+                        <Select
+                          isMulti
+                          options={testOptions}
+                          value={testOptions.filter(option => packages.tests.includes(option.value))}
                           onChange={handleTestChange}
-                        
-                        >
-                          <option value="" disabled>Select tests included</option>
-                          {testOptions.map((test) => (
-                            <option key={test.id} value={test.id}>{test.testname}</option>
-                          ))}
-                        </Form.Control>
+                          placeholder="Select tests included"
+                          styles={{
+                            container: (provided) => ({
+                              ...provided,
+                              width: '100%',
+                              borderRadius: '16px',
+                              border: "1px solid black"
+                            }),
+                            menu: (provided) => ({
+                              ...provided,
+                              borderRadius: '16px'
+                            }),
+                            control: (provided) => ({
+                              ...provided,
+                              borderRadius: '16px'
+                            })
+                          }}
+                        />
                       </Col>
                     </Form.Group>
 
