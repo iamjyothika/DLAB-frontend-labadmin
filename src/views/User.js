@@ -12,6 +12,7 @@ function User() {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
 
+
   const handleButtonClick = () => {
     navigate('/packages');
   };
@@ -28,13 +29,13 @@ function User() {
                 });
                
       
-                // Set package data
+               
                 setPackageData(packageResponse.data);
       
-                // Extract test IDs from package data
+               
                 
       
-                console.log('Packages Data:', packageResponse.data); // Debug log for package data
+                console.log('Packages Data:', packageResponse.data); 
                
       
               } catch (error) {
