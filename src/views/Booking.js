@@ -11,7 +11,11 @@ import {
 } from 'reactstrap';
 import axios from 'axios';
 import { BASE_URL } from 'components/baseurl';
-import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+
+// /lab/test-result/
+
+
 
 
 function Booking() {
@@ -23,7 +27,8 @@ function Booking() {
   const[timeslot,setTimeSlots]=useState([]);
   const[tests,setTests]=useState([]);
   const [userEmailMap, setUserEmailMap] = useState({});
-  const { id } = useParams();
+  const navigate=useNavigate();
+  
   useEffect(() => {
     if (token){
       axios.get(`${BASE_URL}/lab/all-reservations/${labid}/`,{
@@ -147,26 +152,7 @@ const getButtonStyleAndText = (currentBookings, maxCount) => {
   }
 };
 
-// const getButtonText = (currentBookings, maxCount) => {
-//   return currentBookings >= maxCount ? 'Reject' : 'Accept';
-// };
-// const getStatusButtonStyleAndText = (status) => {
-//   if (status === 'Pending') {
-//     return {
-//       backgroundColor: 'yellow',
-//       color: 'black',
-//       padding: '10px 20px',
-//       border: 'none',
-//       borderRadius: '5px',
-//       cursor: 'pointer',
-//     };
-//   }
-  
-// };
 
-// const getStatusButtonText = (status) => {
-//   return status || 'Pending';
-// };
 
 const timeslotMap = timeslot.reduce((map, slot) => {
   map[slot.id] = slot;
@@ -205,6 +191,10 @@ const formatTimeSlot = (startTime, endTime) => {
   };
 
   return `${formatTime(start)} - ${formatTime(end)}`;
+};
+const handleUploadRedirect = (bookingId) => {
+ 
+  navigate(`/admin/report/${bookingId}`);
 };
 
 
@@ -263,6 +253,9 @@ const formatTimeSlot = (startTime, endTime) => {
                     <th style={{ width: '10%', padding: '8px', textAlign: 'center' }}>
                       <b>ACTION</b>
                     </th>
+                    <th style={{ width: '10%', padding: '8px', textAlign: 'center' }}>
+                      <b>TEST RESULT</b>
+                    </th>
                   </tr>
                 </thead>
                 <tbody style={{ overflow: 'hidden', textAlign: 'center', color: 'black', fontWeight: 'bold' }}>
@@ -319,6 +312,26 @@ const formatTimeSlot = (startTime, endTime) => {
     </div>
   ) : (
     <span>{booking.status}</span>
+  )}
+</td>
+<td style={{ textAlign: 'center' }}>
+  {booking.status === 'approved' && (
+    <button
+      style={{
+        backgroundColor: '#007BFF',
+        color: 'white',
+        padding: '5px 10px',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+      }}
+      // Add your upload function or link here
+      onClick={() => handleUploadRedirect(booking.id)}
+    >
+      Upload
+    
+    </button>
+   
   )}
 </td>
 

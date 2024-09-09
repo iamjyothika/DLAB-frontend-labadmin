@@ -96,13 +96,13 @@ var routes = [
     component: <Booking />,
     layout: "/admin",
   },
-  {
-    path: "/report",
-    name: "Test Report",
-    // icon: "nc-icon nc-caps-small",
-    component: <Report />,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/report",
+  //   name: "Test Report",
+  //   // icon: "nc-icon nc-caps-small",
+  //   component: <Report />,
+  //   layout: "/admin",
+  // },
   {
     path: "/feedback",
     name: "Feedbacks",
@@ -139,6 +139,12 @@ export const newPageRoutesss = {
   component: <Timeslot />, 
   layout: "/admin",// Specify the component for the new page
 };
+export const newPageRoutessss = {
+  path: "/report", // Specify the path for the new page
+  component: <Report />, 
+  layout: "/admin",// Specify the component for the new page
+};
+
 
 
 export default routes;

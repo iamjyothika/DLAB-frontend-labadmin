@@ -35,6 +35,7 @@ import Icons from "views/Icons";
 import Login from "views/Login";
 import Timeslot from "views/timeslot";
 import Timeslotl from "views/Time";
+import Report from "views/Report";
 
 
 
@@ -53,6 +54,7 @@ root.render(
       <Route path="/login" element={<Login />} />
       <Route path="/timeslot" element={<Timeslot/>}/>
       <Route path="/timeslot-list" element={<Timeslotl/>}/>
+      <Route path="/admin/report/:bookingId" element={<Report/>}/>
       {/* <Route path="/" element={<Navigate to="/admin/dashboard" replace />} /> */}
     </Routes>
   </BrowserRouter>
