@@ -51,22 +51,43 @@ import { BASE_URL } from "components/baseurl";
          + Add Doctor
         </Button>
       </div>
-      <div className="container" style={{ marginTop: "60px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gridGap: "20px" }}>
-        {doctor.map((member, index) => (
-          <Card key={index}>
-            <Card.Body>
-              {/* <div className="team-img">
-                <img src={member.img} style={{ height: "40%" }} alt={member.name} />
-              </div> */}
-              <div className="team-info">
-                <h4 style={{ color: "green" }}>{member.doctorname}</h4>
-                <h6 style={{ fontSize: "12px" }}>{member.qualification}</h6>
-                <h6>{member.specialiazation}</h6>
-              </div>
-            </Card.Body>
-          </Card>
-        ))}
-      </div>
+      <div className="container" style={{ 
+  marginTop: "60px", 
+  padding: "0 40px",
+  display: "grid", 
+  gridTemplateColumns: "repeat(3, 1fr)", 
+  gridGap: "20px" 
+}}>
+  {doctor.map((member, index) => (
+    <Card key={index} style={{ 
+      padding: "20px", 
+      textAlign: "center", 
+      borderRadius: "10px", 
+      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)" 
+    }}>
+      <Card.Body>
+        <div className="team-img" style={{ marginBottom: "15px" }}>
+          <img 
+            src={member.doctorimage} 
+            style={{ 
+              height: "120px", 
+              width: "120px", 
+              objectFit: "cover", 
+              borderRadius: "50%" 
+            }} 
+            alt={member.name} 
+          />
+        </div>
+        <div className="team-info">
+          <h4 style={{ color: "green", margin: "10px 0" }}>{member.doctorname}</h4>
+          <h6 style={{ fontSize: "12px", color: "#555" }}>{member.qualification}</h6>
+          <h6 style={{ color: "#777" }}>{member.specialiazation}</h6>
+        </div>
+      </Card.Body>
+    </Card>
+  ))}
+</div>
+
     </div>
   );
 }

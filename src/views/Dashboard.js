@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import {React , useState} from "react";
+import {React , useState,useEffect} from "react";
 // react plugin used to create charts
 import { Line, Pie } from "react-chartjs-2";
 import { useNavigate } from 'react-router-dom';
@@ -47,12 +47,60 @@ import {
   dashboardEmailStatisticsChart,
   dashboardNASDAQChart,
 } from "variables/charts.js";
-import img from './lbmin6.png'
+import img from './lbmin6.png';
+import { BASE_URL } from "components/baseurl";
+import axios from "axios";
 
 function Dashboard() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [packageData, setPackageData] = useState([]);
+  const token = sessionStorage.getItem('token');
   const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      if (token) {
+        try {
+          
+                const packageResponse = await axios.get(`${BASE_URL}/lab/package/`, {
+                  headers: {
+                    'Authorization': `Token ${token}`
+                  }
+                });
+               
+      
+               
+                setPackageData(packageResponse.data);
+      
+               
+                
+      
+                console.log('Packages Data:', packageResponse.data); 
+               
+      
+              } catch (error) {
+                console.error('Error fetching data:', error);
+                // Handle error, possibly redirect to login if unauthorized
+              }
+            } else {
+              console.error('Token not found. Please login again.');
+              navigate('/login');
+            }
+          };
+      
+          fetchData();
+        }, [navigate, token]);
+        const getTestCount = (testIds) => {
+          console.log('Test IDs:', testIds); // Debug log to see the structure
+      
+          if (Array.isArray(testIds)) {
+            return testIds.length;
+          } else {
+            console.error('Expected an array of test IDs, but got:', testIds);
+            return 0;
+          }
+        };
+      
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -278,36 +326,14 @@ function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
+                  {packageData.map((pkg) => (
                     <tr className="mt-5">
-                      <td>Senior Citizen Packages</td>
-                      <td>99 Tests</td>
-                      <td>₹ 4599</td>
+                      <td>{pkg.packagename}</td>
+                      <td> {getTestCount(pkg.tests)} Tests</td>
+                      <td>₹ {pkg.price} </td>
                     </tr>
-                    <tr className="mt-5">
-                      <td>Full Body Checkup</td>
-                      <td>90 Tests</td>
-                      <td>₹ 3500</td>
-                    </tr>
-                    <tr className="mt-5">
-                      <td>Postnatal Package</td>
-                      <td>55 Tests</td>
-                      <td>₹ 2580</td>
-                    </tr>
-                    <tr className="mt-5">
-                      <td>Women's Advanced Checkup</td>
-                      <td>99 Tests</td>
-                      <td>₹ 3999</td>
-                    </tr>
-                    <tr className="mt-5">
-                      <td>Men's Health Checkup</td>
-                      <td>42 Tests</td>
-                      <td>₹ 2599</td>
-                    </tr>
-                    <tr className="mt-5">
-                      <td>Cardio Checkup</td>
-                      <td>102 Tests</td>
-                      <td>₹ 5999</td>
-                    </tr>
+                  ))}
+                    
                   </tbody>
                 </Table>
               </div>

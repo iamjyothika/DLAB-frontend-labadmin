@@ -80,7 +80,11 @@ function User() {
               <Card.Text>
                 Tests Included: {getTestCount(pkg.tests)} tests
               </Card.Text>
-              <Card.Text><b>₹ {pkg.price} onwards</b></Card.Text>
+              <div style={styles.priceContainer}>
+                <div style={styles.priceText}>
+                  ₹ {pkg.price}
+                </div>
+              </div>
             </Card.Body>
           </Card>
         ))}
@@ -121,6 +125,19 @@ const styles = {
   card: {
     width: '300px',
     cursor: 'pointer'
+  },
+  priceContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '10px',
+  },
+  priceText: {
+    backgroundColor: 'green', // Green background
+    color: 'white', // White text
+    padding: '10px 20px', // Padding to resemble a button
+    borderRadius: '5px', // Rounded corners
+    fontWeight: 'bold',
+    fontSize: '16px',
   }
 };
 

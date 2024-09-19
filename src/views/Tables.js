@@ -56,7 +56,11 @@ function Tables() {
                 <h4 style={styles.name}>{member.testname}</h4>
                 <h6 style={styles.package}>{member.packagename}</h6>
                 <h6 style={styles.description}>{member.description}</h6>
-                <h6 style={styles.price}>₹ {member.testprice} onwards</h6>
+                <div style={styles.priceContainer}>
+                  <div style={styles.priceButton}>
+                    ₹ {member.testprice} 
+                  </div>
+                </div>
               </div>
             </Card.Body>
           </Card>
@@ -111,6 +115,21 @@ const styles = {
     fontWeight: 'normal',
     fontSize: '16px'
   },
+  priceContainer: {
+    textAlign: "center",  // Center the price button
+    marginTop: "10px",
+  },
+  priceButton: {
+    backgroundColor: "green", 
+    color: "white",  
+    padding: "10px 20px",  
+    borderRadius: "5px",  
+    fontWeight: "bold", 
+    fontSize: "16px", 
+    display: "inline-block",  
+  }
 };
+ 
+
 
 export default Tables;
